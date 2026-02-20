@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les élus pour ENAM - LE CHOIX GAGNANT</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<h1>LES ÉLUS POUR ENAM</h1>
+<p>LE CHOIX GAGNANT</p>
+</header>
+
+<nav>
+<button onclick="show('accueil')">Accueil</button>
+<button onclick="show('inscription')">Inscription</button>
+<button onclick="show('connexion')">Connexion</button>
+<button onclick="show('abonnement')">Avoir d’abonnement</button>
+<button onclick="show('contact')">Contactez-nous</button>
+<button onclick="show('apropos')">A propos</button>
+</nav>
+
+<!-- INSCRIPTION -->
+<section id="inscription">
+<h2>Inscription</h2>
+<input type="text" id="nom" placeholder="Nom">
+<input type="text" id="prenom" placeholder="Prénom">
+<input type="text" id="pseudo" placeholder="Pseudo">
+<input type="email" id="gmail" placeholder="Adresse Gmail">
+<input type="password" id="password" placeholder="Mot de passe">
+<button onclick="etapeSuivante()">Suivant</button>
+
+<div id="validation" style="display:none;">
+<input type="text" id="codeEmail" placeholder="Validation Gmail">
+<input type="text" id="codeAbonnement" placeholder="Code d’abonnement">
+<button onclick="validerInscription()">Valider</button>
+</div>
+</section>
+
+<!-- CONNEXION -->
+<section id="connexion">
+<h2>Connexion</h2>
+<input type="text" id="loginPseudo" placeholder="Adresse Gmail">
+<input type="password" id="loginPassword" placeholder="Mot de passe">
+<button onclick="connexion()">Se connecter</button>
+<p id="loginMessage"></p>
+</section>
+
+<!-- ABONNEMENT -->
+<section id="abonnement">
+<h2>Avoir d’abonnement</h2>
+<p>
+Pour recevoir un code d’abonnement mensuel :<br>
+Envoyez 1000 FCFA au : <br>
+64465484 <br>
+70851997 <br>
+68175741<br><br>
+Ou 4000 FCFA pour un abonnement annuel.
+</p>
+</section>
+
+<!-- ACCUEIL -->
+<section id="accueil">
+<h2>Accueil</h2>
+<div id="menuAccueil" style="display:none;">
+<button onclick="startQCM()">Administration scolaire universitaire</button>
+</div>
+<div id="qcmContainer"></div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none; margin-top:30px;">
+<h3>PANNEAU ADMIN - Ajouter QCM</h3>
+<input type="text" id="adminQuestion" placeholder="Question">
+<input type="text" id="r1" placeholder="Réponse 1">
+<input type="text" id="r2" placeholder="Réponse 2">
+<input type="text" id="r3" placeholder="Réponse 3">
+<input type="text" id="r4" placeholder="Réponse 4">
+<input type="number" id="correct" placeholder="Index bonne réponse (0-3)">
+<button onclick="ajouterQuestion()">Ajouter Question</button>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>Contactez-nous</h2>
+<a href="https://facebook.com" target="_blank">Facebook</a><br>
+<a href="mailto:tonemail@gmail.com">Gmail</a><br>
+<a href="https://wa.me/22664465484">WhatsApp</a>
+</section>
+
+<!-- A PROPOS -->
+<section id="apropos">
+<h2>A propos</h2>
+<p>
+Site de formation intensive au concours de l’ENAM.<br><br>
+Concepteur : SONDE YOUSSOUF<br>
+Attaché d’Administration Scolaire et Universitaire.<br>
+Formateur informatique, bureautique et Développeur de site web et d’applications.
+</p>
+</section>
+
+<footer>
+@ Yson production tous droit reserve
+</footer>
+
+<script type="module" src="firebase-init.js"></script>
+</body>
+</html>
