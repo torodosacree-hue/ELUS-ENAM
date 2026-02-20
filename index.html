@@ -8,251 +8,279 @@
 <style>
 body{
 margin:0;
-font-family:Arial;
-background:linear-gradient(135deg,#1e3c72,#2a5298);
-color:white;
+font-family:Arial, sans-serif;
+background:linear-gradient(to right,#0d47a1,#1976d2);
+color:#333;
 }
 
+/* HEADER */
 header{
-background:#000;
-padding:15px;
-text-align:center;
-font-weight:bold;
+background:#0d47a1;
+color:yellow;
+padding:25px;
 position:relative;
-}
-
-#profileBox{
-position:absolute;
-top:10px;
-right:15px;
 text-align:center;
 }
 
-#profileImg{
-width:50px;
-height:50px;
-border-radius:50%;
-object-fit:cover;
-display:block;
-margin:auto;
+header h2{
+margin:0;
+font-size:20px;
 }
 
+/* MENU SUR LA DEUXIEME LIGNE */
 nav{
-background:#111;
-padding:10px;
+margin-top:10px;
+}
+
+nav a{
+color:black;
+margin:0 10px;
+text-decoration:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* PROFIL EN HAUT A DROITE */
+.profile-container{
+position:absolute;
+top:124px;
+right:0px;
+text-align:right;
+}
+
+.profile-container img{
+width:100px;
+height:70px;
+border-radius:10%;
+border:3px solid white;
+display:rig;
+margin-bottom:1px;
+}
+
+/* CENTRAGE INSCRIPTION & CONNEXION */
+.center-box{
+display:flex;
+justify-content:center;
+align-items:center;
+height:80vh;
+}
+
+.card{
+background:green;
+padding:30px;
+border-radius:10px;
+width:350px;
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
 text-align:center;
 }
 
-nav button{
-margin:5px;
-padding:8px 15px;
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+padding:10px 15px;
+background:#0d47a1;
+color:white;
 border:none;
-background:#ff9800;
 border-radius:5px;
 cursor:pointer;
-font-weight:bold;
+width:100%;
+margin-top:10px;
 }
 
-section{
+button:hover{
+background:#08306b;
+}
+
+.section{
 display:none;
 padding:20px;
-}
-
-input, textarea, select{
-display:block;
-margin:10px 0;
-padding:8px;
-width:100%;
-max-width:400px;
-}
-
-button.action{
-background:#4CAF50;
-color:white;
-border:none;
-padding:10px;
-cursor:pointer;
-border-radius:5px;
-}
-
-.qcmBox{
-background:#ffffff20;
-padding:10px;
-margin:10px 0;
+background:white;
+margin:20px;
 border-radius:8px;
 }
 
 footer{
-background:#000;
 text-align:center;
 padding:10px;
+background:#0d47a1;
+color:white;
 margin-top:20px;
-}
-
-#bienvenue{
-text-align:center;
-margin-top:20px;
-font-weight:bold;
 }
 </style>
 </head>
+
 <body>
 
 <header>
-LES ELUS POUR ENAM - LE CHOIX GAGNANT
-<div id="profileBox">
-<img id="profileImg" src="">
-<input type="file" onchange="loadProfile(event)">
-</div>
+<h2>LES ELUS POUR ENAM - LE CHOIX GAGNANT</h2>
+<nav>
+<a onclick="showSection('home')">Accueil</a>
+<a onclick="showSection('contact')">Contactez-nous</a>
+<a onclick="showSection('about')">A propos</a>
+<a onclick="logout()">Déconnexion</a>
+</nav>
 </header>
 
-<nav>
-<button onclick="show('inscription')">Inscription</button>
-<button onclick="show('connexion')">Connexion</button>
-<button onclick="show('abonnement')">Avoir code d’abonnement</button>
-<button onclick="showAccueil()">Accueil</button>
-<button onclick="show('contact')">Contact</button>
-<button onclick="show('apropos')">A propos</button>
-</nav>
+<!-- IMAGE PROFIL -->
+<div class="profile-container">
+<img id="profileImg">
+<input type="file" onchange="loadProfile(event)">
+</div>
 
 <!-- INSCRIPTION -->
-<section id="inscription">
-<h2>Inscription</h2>
-<div id="step1">
+<div id="register" class="center-box">
+<div class="card">
+<h3>Inscription</h3>
 <input id="nom" placeholder="Nom">
 <input id="prenom" placeholder="Prénom">
 <input id="gmail" placeholder="Adresse Gmail">
-<input id="password" type="password" placeholder="Mot de passe">
-<button class="action" onclick="nextStep()">Suivant</button>
-</div>
+<input type="password" id="password" placeholder="Mot de passe">
+<button onclick="nextCode()">Suivant</button>
 
-<div id="step2" style="display:none;">
-<input id="codeAbonnement" placeholder="Code d’abonnement">
-<button class="action" onclick="register()">Valider</button>
+<div id="codeSection" style="display:none;">
+<input id="code" placeholder="Code d’abonnement">
+<button onclick="validateCode()">Valider</button>
 </div>
-<p id="insMsg"></p>
-</section>
+<br>
+<p>Déjà inscrit ?</p>
+<button onclick="switchToLogin()">Connexion</button>
+</div>
+</div>
 
 <!-- CONNEXION -->
-<section id="connexion">
-<h2>Connexion</h2>
-<input id="loginGmail" placeholder="Gmail">
-<input id="loginPass" type="password" placeholder="Mot de passe">
-<button class="action" onclick="login()">Se connecter</button>
-<p id="loginMsg"></p>
-</section>
-
-<!-- ABONNEMENT -->
-<section id="abonnement">
-<h2>Avoir code d’abonnement</h2>
-<p>
-Pour recevoir un code d’abonnement mensuel:<br><br>
-Envoyé 1000 FCFA au:<br>
-64465484<br>
-70851997<br>
-68175741<br><br>
-ou 4000 FCFA pour un abonnement annuel.
-</p>
-</section>
+<div id="login" class="center-box" style="display:none;">
+<div class="card">
+<h3>Connexion</h3>
+<input id="loginMail" placeholder="Gmail">
+<input type="password" id="loginPass" placeholder="Mot de passe">
+<button onclick="login()">Se connecter</button>
+<br><br>
+<button onclick="switchToRegister()">Créer un compte</button>
+</div>
+</div>
 
 <!-- ACCUEIL -->
-<section id="accueil">
-<h2>Accueil</h2>
-
-<button onclick="openRubrique('Culture générale')">Culture générale</button>
-<button onclick="openRubrique('AASU')">Spécialité AASU</button>
-<button onclick="openRubrique('CASU')">Spécialité CASU</button>
-<button onclick="openRubrique('AISU')">Spécialité AISU</button>
-<button onclick="openRubrique('CISU')">Spécialité CISU</button>
-
-<div id="qcmArea"></div>
-</section>
+<div id="home" class="section">
+<h2>Bienvenue <span id="welcomeName"></span></h2>
+<p>Choisissez une spécialité :</p>
+<button onclick="alert('Ouverture rubriques...')">Culture générale</button>
+<button onclick="alert('Ouverture rubriques...')">AASU</button>
+<button onclick="alert('Ouverture rubriques...')">CASU</button>
+<button onclick="alert('Ouverture rubriques...')">AISU</button>
+<button onclick="alert('Ouverture rubriques...')">CISU</button>
+</div>
 
 <!-- CONTACT -->
-<section id="contact">
-<h2>Contactez-nous</h2>
-<a href="https://www.facebook.com/etoileslibres" target="_blank">Page Facebook</a><br>
-<a href="mailto:torodosacree@gmail.com">Gmail</a><br>
-<a href="https://wa.me/22664465484" target="_blank">Whatsapp</a>
-</section>
+<div id="contact" class="section">
+<h3>Contactez-nous</h3>
+<p><a href="https://www.facebook.com/etoileslibres" target="_blank">Page Facebook</a></p>
+<p><a href="mailto:torodosacree@gmail.com">Nous écrire par Gmail</a></p>
+<p><a href="https://wa.me/22664465484" target="_blank">Whatsapp</a></p>
+</div>
 
 <!-- A PROPOS -->
-<section id="apropos">
-<h2>A propos</h2>
+<div id="about" class="section">
 <p>
 Site de formation intensive au concours de l’ENAM.<br>
-Concepteur : SONDE YOUSSOUF Attaché d’Administration Scolaire et Universitaire.<br>
+Concepteur : SONDE YOUSSOUF Attaché d’Administration Scolaire et Universitaire. 
 Formateur informatique, bureautique et Développeur de site web et d’applications.
 </p>
-</section>
-
-<div id="bienvenue"></div>
+</div>
 
 <footer>
 @-YSON Production 2026-@
 </footer>
 
 <script>
-let isLogged=false;
+let currentUser=null;
 
-function show(id){
-document.querySelectorAll("section").forEach(s=>s.style.display="none");
-document.getElementById(id).style.display="block";
+function switchToLogin(){
+document.getElementById("register").style.display="none";
+document.getElementById("login").style.display="flex";
 }
 
-function nextStep(){
-document.getElementById("step1").style.display="none";
-document.getElementById("step2").style.display="block";
+function switchToRegister(){
+document.getElementById("login").style.display="none";
+document.getElementById("register").style.display="flex";
 }
 
-function register(){
-let code=document.getElementById("codeAbonnement").value;
-let expiration;
+function nextCode(){
+document.getElementById("codeSection").style.display="block";
+}
 
-if(code==="lebonheur10"){
-expiration=Date.now()+(30*24*60*60*1000);
-}
-else if(code==="jesuisadmis10"){
-expiration=Date.now()+(360*24*60*60*1000);
-}
+function validateCode(){
+let code=document.getElementById("code").value;
+let days=0;
+
+if(code==="lebonheur10") days=30;
+else if(code==="jesuisadmis10") days=360;
 else{
-document.getElementById("insMsg").innerText="Achetez votre code d’abonnement";
+alert("Achetez votre code d’abonnement");
 return;
 }
 
+let expiration=Date.now()+days*24*60*60*1000;
+
 let user={
-nom:document.getElementById("nom").value,
-prenom:document.getElementById("prenom").value,
-gmail:document.getElementById("gmail").value,
-password:document.getElementById("password").value,
+nom:nom.value,
+prenom:prenom.value,
+gmail:gmail.value,
+password:password.value,
 expiration:expiration
 };
 
 localStorage.setItem("user",JSON.stringify(user));
-document.getElementById("insMsg").innerText="Inscription réussie";
+alert("Inscription réussie !");
+switchToLogin();
 }
 
 function login(){
 let user=JSON.parse(localStorage.getItem("user"));
-if(!user){document.getElementById("loginMsg").innerText="Inscrivez-vous";return;}
+if(!user) return alert("Aucun compte trouvé");
 
+if(loginMail.value===user.gmail && loginPass.value===user.password){
 if(Date.now()>user.expiration){
-document.getElementById("loginMsg").innerText="Abonnement expiré";
+alert("Abonnement expiré");
 return;
 }
-
-if(user.gmail===loginGmail.value && user.password===loginPass.value){
-isLogged=true;
-document.getElementById("loginMsg").innerText="Connexion réussie";
-document.getElementById("bienvenue").innerText="BIENVENUE "+user.nom;
+currentUser=user;
+document.getElementById("welcomeName").innerText=user.nom;
+document.getElementById("login").style.display="none";
+document.getElementById("home").style.display="block";
 }else{
-document.getElementById("loginMsg").innerText="Identifiants incorrects";
+alert("Identifiants incorrects");
 }
 }
 
-function showAccueil(){
-if(!isLogged){
-alert("Veuillez vous inscrire ou vous connecter");
+function logout(){
+currentUser=null;
+alert("Déconnecté");
+location.reload();
+}
+
+function showSection(id){
+if(!currentUser && id==="home"){
+alert("Veuillez vous connecter");
 return;
 }
-show
+document.querySelectorAll('.section').forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+function loadProfile(event){
+let reader=new FileReader();
+reader.onload=function(){
+profileImg.src=reader.result;
+}
+reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+
+</body>
+</html>
