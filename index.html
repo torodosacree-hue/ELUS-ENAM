@@ -3,108 +3,256 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Les élus pour ENAM - LE CHOIX GAGNANT</title>
-<link rel="stylesheet" href="style.css">
+<title>LES ELUS POUR ENAM - LE CHOIX GAGNANT</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
+}
+
+header{
+background:#000;
+padding:15px;
+text-align:center;
+font-weight:bold;
+position:relative;
+}
+
+#profileBox{
+position:absolute;
+top:10px;
+right:15px;
+text-align:center;
+}
+
+#profileImg{
+width:50px;
+height:50px;
+border-radius:50%;
+object-fit:cover;
+display:block;
+margin:auto;
+}
+
+nav{
+background:#111;
+padding:10px;
+text-align:center;
+}
+
+nav button{
+margin:5px;
+padding:8px 15px;
+border:none;
+background:#ff9800;
+border-radius:5px;
+cursor:pointer;
+font-weight:bold;
+}
+
+section{
+display:none;
+padding:20px;
+}
+
+input, textarea, select{
+display:block;
+margin:10px 0;
+padding:8px;
+width:100%;
+max-width:400px;
+}
+
+button.action{
+background:#4CAF50;
+color:white;
+border:none;
+padding:10px;
+cursor:pointer;
+border-radius:5px;
+}
+
+.qcmBox{
+background:#ffffff20;
+padding:10px;
+margin:10px 0;
+border-radius:8px;
+}
+
+footer{
+background:#000;
+text-align:center;
+padding:10px;
+margin-top:20px;
+}
+
+#bienvenue{
+text-align:center;
+margin-top:20px;
+font-weight:bold;
+}
+</style>
 </head>
 <body>
 
 <header>
-<h1>LES ÉLUS POUR ENAM</h1>
-<p>LE CHOIX GAGNANT</p>
+LES ELUS POUR ENAM - LE CHOIX GAGNANT
+<div id="profileBox">
+<img id="profileImg" src="">
+<input type="file" onchange="loadProfile(event)">
+</div>
 </header>
 
 <nav>
-<button onclick="show('accueil')">Accueil</button>
 <button onclick="show('inscription')">Inscription</button>
 <button onclick="show('connexion')">Connexion</button>
-<button onclick="show('abonnement')">Avoir d’abonnement</button>
-<button onclick="show('contact')">Contactez-nous</button>
+<button onclick="show('abonnement')">Avoir code d’abonnement</button>
+<button onclick="showAccueil()">Accueil</button>
+<button onclick="show('contact')">Contact</button>
 <button onclick="show('apropos')">A propos</button>
 </nav>
 
 <!-- INSCRIPTION -->
 <section id="inscription">
 <h2>Inscription</h2>
-<input type="text" id="nom" placeholder="Nom">
-<input type="text" id="prenom" placeholder="Prénom">
-<input type="text" id="pseudo" placeholder="Pseudo">
-<input type="email" id="gmail" placeholder="Adresse Gmail">
-<input type="password" id="password" placeholder="Mot de passe">
-<button onclick="etapeSuivante()">Suivant</button>
-
-<div id="validation" style="display:none;">
-<input type="text" id="codeEmail" placeholder="Validation Gmail">
-<input type="text" id="codeAbonnement" placeholder="Code d’abonnement">
-<button onclick="validerInscription()">Valider</button>
+<div id="step1">
+<input id="nom" placeholder="Nom">
+<input id="prenom" placeholder="Prénom">
+<input id="gmail" placeholder="Adresse Gmail">
+<input id="password" type="password" placeholder="Mot de passe">
+<button class="action" onclick="nextStep()">Suivant</button>
 </div>
+
+<div id="step2" style="display:none;">
+<input id="codeAbonnement" placeholder="Code d’abonnement">
+<button class="action" onclick="register()">Valider</button>
+</div>
+<p id="insMsg"></p>
 </section>
 
 <!-- CONNEXION -->
 <section id="connexion">
 <h2>Connexion</h2>
-<input type="text" id="loginPseudo" placeholder="Adresse Gmail">
-<input type="password" id="loginPassword" placeholder="Mot de passe">
-<button onclick="connexion()">Se connecter</button>
-<p id="loginMessage"></p>
+<input id="loginGmail" placeholder="Gmail">
+<input id="loginPass" type="password" placeholder="Mot de passe">
+<button class="action" onclick="login()">Se connecter</button>
+<p id="loginMsg"></p>
 </section>
 
 <!-- ABONNEMENT -->
 <section id="abonnement">
-<h2>Avoir d’abonnement</h2>
+<h2>Avoir code d’abonnement</h2>
 <p>
-Pour recevoir un code d’abonnement mensuel :<br>
-Envoyez 1000 FCFA au : <br>
-64465484 <br>
-70851997 <br>
+Pour recevoir un code d’abonnement mensuel:<br><br>
+Envoyé 1000 FCFA au:<br>
+64465484<br>
+70851997<br>
 68175741<br><br>
-Ou 4000 FCFA pour un abonnement annuel.
+ou 4000 FCFA pour un abonnement annuel.
 </p>
 </section>
 
 <!-- ACCUEIL -->
 <section id="accueil">
 <h2>Accueil</h2>
-<div id="menuAccueil" style="display:none;">
-<button onclick="startQCM()">Administration scolaire universitaire</button>
-</div>
-<div id="qcmContainer"></div>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel" style="display:none; margin-top:30px;">
-<h3>PANNEAU ADMIN - Ajouter QCM</h3>
-<input type="text" id="adminQuestion" placeholder="Question">
-<input type="text" id="r1" placeholder="Réponse 1">
-<input type="text" id="r2" placeholder="Réponse 2">
-<input type="text" id="r3" placeholder="Réponse 3">
-<input type="text" id="r4" placeholder="Réponse 4">
-<input type="number" id="correct" placeholder="Index bonne réponse (0-3)">
-<button onclick="ajouterQuestion()">Ajouter Question</button>
-</div>
+<button onclick="openRubrique('Culture générale')">Culture générale</button>
+<button onclick="openRubrique('AASU')">Spécialité AASU</button>
+<button onclick="openRubrique('CASU')">Spécialité CASU</button>
+<button onclick="openRubrique('AISU')">Spécialité AISU</button>
+<button onclick="openRubrique('CISU')">Spécialité CISU</button>
+
+<div id="qcmArea"></div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
 <h2>Contactez-nous</h2>
-<a href="https://facebook.com" target="_blank">Facebook</a><br>
-<a href="mailto:tonemail@gmail.com">Gmail</a><br>
-<a href="https://wa.me/22664465484">WhatsApp</a>
+<a href="https://www.facebook.com/etoileslibres" target="_blank">Page Facebook</a><br>
+<a href="mailto:torodosacree@gmail.com">Gmail</a><br>
+<a href="https://wa.me/22664465484" target="_blank">Whatsapp</a>
 </section>
 
 <!-- A PROPOS -->
 <section id="apropos">
 <h2>A propos</h2>
 <p>
-Site de formation intensive au concours de l’ENAM.<br><br>
-Concepteur : SONDE YOUSSOUF<br>
-Attaché d’Administration Scolaire et Universitaire.<br>
+Site de formation intensive au concours de l’ENAM.<br>
+Concepteur : SONDE YOUSSOUF Attaché d’Administration Scolaire et Universitaire.<br>
 Formateur informatique, bureautique et Développeur de site web et d’applications.
 </p>
 </section>
 
+<div id="bienvenue"></div>
+
 <footer>
-@ Yson production tous droit reserve
+@-YSON Production 2026-@
 </footer>
 
-<script type="module" src="firebase-init.js"></script>
-</body>
-</html>
+<script>
+let isLogged=false;
+
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+function nextStep(){
+document.getElementById("step1").style.display="none";
+document.getElementById("step2").style.display="block";
+}
+
+function register(){
+let code=document.getElementById("codeAbonnement").value;
+let expiration;
+
+if(code==="lebonheur10"){
+expiration=Date.now()+(30*24*60*60*1000);
+}
+else if(code==="jesuisadmis10"){
+expiration=Date.now()+(360*24*60*60*1000);
+}
+else{
+document.getElementById("insMsg").innerText="Achetez votre code d’abonnement";
+return;
+}
+
+let user={
+nom:document.getElementById("nom").value,
+prenom:document.getElementById("prenom").value,
+gmail:document.getElementById("gmail").value,
+password:document.getElementById("password").value,
+expiration:expiration
+};
+
+localStorage.setItem("user",JSON.stringify(user));
+document.getElementById("insMsg").innerText="Inscription réussie";
+}
+
+function login(){
+let user=JSON.parse(localStorage.getItem("user"));
+if(!user){document.getElementById("loginMsg").innerText="Inscrivez-vous";return;}
+
+if(Date.now()>user.expiration){
+document.getElementById("loginMsg").innerText="Abonnement expiré";
+return;
+}
+
+if(user.gmail===loginGmail.value && user.password===loginPass.value){
+isLogged=true;
+document.getElementById("loginMsg").innerText="Connexion réussie";
+document.getElementById("bienvenue").innerText="BIENVENUE "+user.nom;
+}else{
+document.getElementById("loginMsg").innerText="Identifiants incorrects";
+}
+}
+
+function showAccueil(){
+if(!isLogged){
+alert("Veuillez vous inscrire ou vous connecter");
+return;
+}
+show
